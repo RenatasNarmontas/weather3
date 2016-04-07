@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} First weathermap app!{% endblock %}
+
+{% block body %}
+    <h1>You've asked for lat:{{ latitude }}, lon: {{ longtitude }}</h1>
+    <h3>Today is: {{ temperature }}</h3>
+    <br><br>
+    Additional information:<br>
+    Page generated: {{ pageGenerated }}
+{% endblock %}
