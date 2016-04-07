@@ -2,7 +2,3 @@ nfq_weather:
     resource: "@NfqWeatherBundle/Controller/"
     type:     annotation
     prefix:   /
-
-app:
-    resource: "@AppBundle/Controller/"
-    type:     annotation
