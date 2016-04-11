@@ -16,11 +16,6 @@ use Nfq\WeatherBundle\Weather\Weather;
 class OpenWeatherMapProvider implements WeatherProviderInterface
 {
     /**
-     * @var Weather
-     */
-    private $weather;
-
-    /**
      * @var string
      */
     private $api;
@@ -37,10 +32,9 @@ class OpenWeatherMapProvider implements WeatherProviderInterface
      */
     public function __construct(OpenWeatherMapParser $owmp, string $api)
     {
-        $this->weather = new Weather();
         $this->api = $api;
         $this->owmp = $owmp;
-    }
+        }
 
     /**
      * @param Location $location
@@ -53,10 +47,10 @@ class OpenWeatherMapProvider implements WeatherProviderInterface
 
         $temperature = $this->owmp->getTemperature($json);
 
-        $this->weather->setTemperature($temperature);
+        $weather = new Weather($temperature);
 
         // Return Weather object
-        return $this->weather;
+        return $weather;
     }
 
     /**
@@ -68,8 +62,8 @@ class OpenWeatherMapProvider implements WeatherProviderInterface
     {
         $url = sprintf(
             'http://api.openweathermap.org/data/2.5/weather?lat=%d&lon=%d&appid=%s&units=metric',
+            $location->getLongitude(),
             $location->getLatitude(),
-            $location->getLongtitude(),
             $this->api
         );
 

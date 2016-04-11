@@ -18,9 +18,11 @@ class Weather
 
     /**
      * Weather constructor.
+     * @param float $temperature
      */
-    public function __construct()
+    public function __construct(float $temperature)
     {
+        $this->temperature = $temperature;
     }
 
     /**
@@ -35,9 +37,12 @@ class Weather
     /**
      * Set temperature
      * @param float $temperature
+     * @return Weather
      */
     public function setTemperature($temperature)
     {
         $this->temperature = $temperature;
+
+        return $this;
     }
 }

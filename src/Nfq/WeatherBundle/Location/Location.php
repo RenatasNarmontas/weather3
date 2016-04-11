@@ -14,30 +14,22 @@ class Location
     /**
      * @var float
      */
-    private $longtitude;
+    private $latitude;
 
     /**
      * @var float
      */
-    private $latitude;
+    private $longitude;
 
     /**
      * Location constructor.
-     * @param float $longtitude
      * @param float $latitude
+     * @param float $longitude
      */
-    public function __construct(float $latitude, float $longtitude)
+    public function __construct(float $latitude, float $longitude)
     {
         $this->latitude = $latitude;
-        $this->longtitude = $longtitude;
-    }
-
-    /**
-     * @return float
-     */
-    public function getLongtitude()
-    {
-        return $this->longtitude;
+        $this->longitude = $longitude;
     }
 
     /**
@@ -46,5 +38,13 @@ class Location
     public function getLatitude()
     {
         return $this->latitude;
+    }
+
+    /**
+     * @return float
+     */
+    public function getLongitude()
+    {
+        return $this->longitude;
     }
 }

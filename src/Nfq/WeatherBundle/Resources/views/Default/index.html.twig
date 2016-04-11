@@ -3,7 +3,7 @@
 {% block title %} First weathermap app!{% endblock %}
 
 {% block body %}
-    <h1>You've asked for lat:{{ latitude }}, lon: {{ longtitude }}</h1>
+    <h1>You've asked for lat:{{ location.latitude }}, lon: {{ location.longitude }}</h1>
     <h3>Today is: {{ temperature }}</h3>
     <br><br>
     Additional information:<br>
