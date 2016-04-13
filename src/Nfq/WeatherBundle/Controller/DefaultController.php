@@ -19,7 +19,7 @@ class DefaultController extends Controller
     /**
      * @Route("/lat/{lat}/lon/{lon}")
      */
-    public function testAction(float $lat, float $lon)
+    public function openWeatherMapAction(float $lat, float $lon)
     {
         //$location = new Location(54.641288, 24.990230);
         $location = new Location($lat, $lon);
@@ -37,7 +37,7 @@ class DefaultController extends Controller
     /**
      * @Route("/yahoo/lat/{lat}/lon/{lon}")
      */
-    public function testYahoo(float $lat, float $lon)
+    public function yahooAction(float $lat, float $lon)
     {
         $location = new Location($lat, $lon);
         $provider = $this->get('nfq_weather.provider.yahoo');
@@ -69,10 +69,13 @@ class DefaultController extends Controller
     /**
      * @Route("/del/lat/{lat}/lon/{lon}")
      */
-    public function testDelegating(float $lat, float $lon)
+    public function delegatingAction(float $lat, float $lon)
     {
         $location = new Location($lat, $lon);
-        $provider = $this->get('nfq_weather.provider.delegating');
+        $provider = $this->get('nfq_weather.provider');
+        dump($provider); exit;
+        //$provider = $this->getParameter('nfq_weather.provider');
+
         $weather = $provider->fetch($location);
         return $this->render('NfqWeatherBundle:Default:index.html.twig',
             [
@@ -81,5 +84,14 @@ class DefaultController extends Controller
                 'pageGenerated' => date('Y-m-d H:i:s T')
             ]);
 
+    }
+
+    /**
+     * @Route("/test")
+     */
+    public function testAction()
+    {
+        //$provider = $this->container->getParameter('');
+        //var_dump($provider); die;
     }
 }
