@@ -9,7 +9,6 @@ use Symfony\Component\Config\FileLocator;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\Loader;
 use Symfony\Component\Yaml\Yaml;
-use Nfq\WeatherBundle\Config\YamlConfigLoader;
 
 /**
  * This is the class that loads and manages your bundle configuration.
@@ -30,13 +29,28 @@ class NfqWeatherExtension extends Extension
         $loader->load('services.yml');
 
         $provider = $config['provider'];
+        //var_dump($provider); exit;
 
-        $container->setAlias('nfq_weather.provider', 'nfq_weather.provider.' . $provider);
+        $delegatingProviders = $config['providers']['delegating']['providers'];
+
+        $container->setAlias('nfq_weather.provider', 'nfq_weather.provider.'.$provider);
+
+        $delegatingProvidersAsClass = array();
+        $delegatingProvidersApis = array();
+        foreach ($delegatingProviders as $providerIterator)
+        {
+            array_push($delegatingProvidersAsClass, 'Nfq\\WeatherBundle\Provider\\'.$providerIterator.'Provider');
+            $delegatingProvidersApis[$providerIterator] = $config['providers'][strtolower($providerIterator)]['api_key'];
+        }
+
+        $container->setParameter('nfq_weather.delegating_providers', $delegatingProvidersAsClass);
+        $container->setParameter('api_key', $delegatingProvidersApis);
+
+
+
+
 
 //        $container->setParameter('nfq_weather.provider', $config['provider']);
-
-
-
 
         // Testing code in documentation
 //        $loader1 = new YamlConfigLoader(new FileLocator(__DIR__.'/../Resources/config'));

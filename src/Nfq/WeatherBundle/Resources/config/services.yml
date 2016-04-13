@@ -23,6 +23,4 @@ services:
     # Delegating
     nfq_weather.provider.delegating:
         class: Nfq\WeatherBundle\Provider\DelegatingProvider
-        arguments: []
-
-# monolog bundle
+        arguments: ["%nfq_weather.delegating_providers%", "%api_key%"]

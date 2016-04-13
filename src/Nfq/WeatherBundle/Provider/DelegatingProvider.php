@@ -10,6 +10,9 @@ namespace Nfq\WeatherBundle\Provider;
 
 
 use Nfq\WeatherBundle\Location\Location;
+use Nfq\WeatherBundle\Parser\OpenWeatherMapParser;
+use Nfq\WeatherBundle\Parser\YahooParser;
+use Nfq\WeatherBundle\Provider\YahooProvider;
 use Nfq\WeatherBundle\Weather\Weather;
 
 class DelegatingProvider extends ProviderAbstract
@@ -20,12 +23,19 @@ class DelegatingProvider extends ProviderAbstract
     private $providers;
 
     /**
+     * @var string
+     */
+    private $apis;
+
+    /**
      * DelegatingProvider constructor.
      * @param array $providers
      */
-    public function __construct(array $providers)
+    public function __construct(array $providers, array $apis)
     {
         $this->providers = $providers;
+        $this->apis = $apis;
+//        dump($apis, $providers); exit;
     }
 
     /**
@@ -35,24 +45,31 @@ class DelegatingProvider extends ProviderAbstract
      */
     public function fetch(Location $location): Weather
     {
-//        $location = new Location($lat, $lon);
-//        $provider = $this->get('nfq_weather.provider.yahoo');
-//        $weather = $provider->fetch($location);
+        //dump($this->api); exit;
 
-        foreach ($this->providers as $prov) {
+        foreach ($this->providers as $providerIterator) {
+            //var_dump($providerIterator); exit;
+
             try {
-                $provider = $this->get($prov);
+                switch ($providerIterator) {
+                    case 'Nfq\WeatherBundle\Provider\YahooProvider':
+                        $provider = new $providerIterator(new YahooParser());
+//                        var_dump($provider); exit;
+                        break;
+                    case 'Nfq\WeatherBundle\Provider\OpenWeatherMapProvider':
+                        $provider = new $providerIterator(new OpenWeatherMapParser(), $this->apis['OpenWeatherMap']);
+                        //var_dump($provider); exit;
+                        break;
+                }
+
                 $weather = $provider->fetch($location);
+                return $weather;
             } catch (\Exception $ex) {
                 // This provider failed. Log error and let's try new one
-                error_log('Failed to get data from '.$prov.' Message: '.$ex->getMessage());
+                error_log('Failed to get data. Message: '.$ex->getMessage());
             }
         }
 
-        if (null === $weather) {
-            throw new WeatherProviderException('All providers failed to respond');
-        }
-
-        return $weather;
+        throw new WeatherProviderException('All providers failed to respond');
     }
 }
