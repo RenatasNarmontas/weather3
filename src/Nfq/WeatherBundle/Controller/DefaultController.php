@@ -73,7 +73,8 @@ class DefaultController extends Controller
     {
         $location = new Location($lat, $lon);
         $provider = $this->get('nfq_weather.provider');
-        dump($provider); exit;
+
+        //dump($provider); exit;
         //$provider = $this->getParameter('nfq_weather.provider');
 
         $weather = $provider->fetch($location);
@@ -81,7 +82,8 @@ class DefaultController extends Controller
             [
                 'location' => $location,
                 'temperature' => $weather->getTemperature(),
-                'pageGenerated' => date('Y-m-d H:i:s T')
+                'pageGenerated' => date('Y-m-d H:i:s T'),
+                'provider' => $provider
             ]);
 
     }

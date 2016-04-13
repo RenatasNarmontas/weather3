@@ -15,10 +15,17 @@ use Nfq\WeatherBundle\Weather\Weather;
 interface WeatherProviderInterface
 {
     /**
+     * Fetch weather conditions
      * @param Location $location
      * @return Weather
      * @throws WeatherProviderException
      */
     public function fetch(Location $location): Weather;
+
+    /**
+     * Return class name
+     * @return string
+     */
+    public function __toString(): string;
 
 }

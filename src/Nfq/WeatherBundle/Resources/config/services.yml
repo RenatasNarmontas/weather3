@@ -3,13 +3,13 @@ imports:
 
 services:
     # OpenWeatherMap
-    nfq_weather.parser.open_weather_map:
+    nfq_weather.parser.openweathermap:
         class: Nfq\WeatherBundle\Parser\OpenWeatherMapParser
         public: false
 
-    nfq_weather.provider.open_weather_map:
+    nfq_weather.provider.openweathermap:
         class: Nfq\WeatherBundle\Provider\OpenWeatherMapProvider
-        arguments: ["@nfq_weather.parser.open_weather_map", "%openweathermap_api_key%"]
+        arguments: ["@nfq_weather.parser.openweathermap", "%openweathermap_api_key%"]
 
     # Yahoo
     nfq_weather.parser.yahoo:

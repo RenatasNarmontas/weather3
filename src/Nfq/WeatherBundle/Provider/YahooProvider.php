@@ -13,7 +13,7 @@ use Nfq\WeatherBundle\Location\Location;
 use Nfq\WeatherBundle\Parser\YahooParser;
 use Nfq\WeatherBundle\Weather\Weather;
 
-class YahooProvider implements WeatherProviderInterface
+class YahooProvider extends ProviderAbstract //implements WeatherProviderInterface
 {
 
     /**
@@ -37,7 +37,7 @@ class YahooProvider implements WeatherProviderInterface
      */
     public function fetch(Location $location): Weather
     {
-        $json = $this->getJson($location);
+        $json = $this->fetchJson($location);
 
         $temperature = $this->yp->getTemperature($json);
 
@@ -47,7 +47,7 @@ class YahooProvider implements WeatherProviderInterface
         return $weather;
     }
 
-    private function getJson(Location $location)
+    private function fetchJson(Location $location)
     {
         $base_url = "http://query.yahooapis.com/v1/public/yql";
         $yql_query = 'select * from weather.forecast where woeid in (SELECT woeid FROM geo.places WHERE text='

@@ -13,7 +13,7 @@ use Nfq\WeatherBundle\Location\Location;
 use Nfq\WeatherBundle\Parser\OpenWeatherMapParser;
 use Nfq\WeatherBundle\Weather\Weather;
 
-class OpenWeatherMapProvider implements WeatherProviderInterface
+class OpenWeatherMapProvider extends ProviderAbstract
 {
     /**
      * @var string
@@ -37,13 +37,14 @@ class OpenWeatherMapProvider implements WeatherProviderInterface
         }
 
     /**
+     * Fetch data
      * @param Location $location
      * @return Weather
      * @throws WeatherProviderException
      */
     public function fetch(Location $location): Weather
     {
-        $json = $this->getJson($location);
+        $json = $this->fetchJson($location);
 
         $temperature = $this->owmp->getTemperature($json);
 
@@ -54,11 +55,12 @@ class OpenWeatherMapProvider implements WeatherProviderInterface
     }
 
     /**
+     * Fetch weather conditions
      * @param Location $location
      * @return mixed
      * @throws WeatherProviderException
      */
-    private function getJson(Location $location)
+    private function fetchJson(Location $location)
     {
         $url = sprintf(
             'http://api.openweathermap.org/data/2.5/weather?lat=%d&lon=%d&appid=%s&units=metric',

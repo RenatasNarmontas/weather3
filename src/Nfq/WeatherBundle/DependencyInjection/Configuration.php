@@ -18,9 +18,13 @@ class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder();
-//        $rootNode = $treeBuilder->root('');
         $rootNode = $treeBuilder->root('nfq_weather');
-        $rootNode->children()->scalarNode('provider')->end();
+        $rootNode
+            ->children()
+                ->scalarNode('provider')
+                    ->isRequired()
+                ->end()
+            ->end();
 //        $rootNode = $treeBuilder->root('nfq_weather');
 //
 //        $rootNode

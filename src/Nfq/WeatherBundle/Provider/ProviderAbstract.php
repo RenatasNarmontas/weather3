@@ -9,13 +9,22 @@
 namespace Nfq\WeatherBundle\Provider;
 
 
+use Nfq\WeatherBundle\Location\Location;
+use Nfq\WeatherBundle\Weather\Weather;
+
 abstract class ProviderAbstract implements WeatherProviderInterface
 {
+    /**
+     * @param Location $location
+     * @return Weather
+     */
+    abstract public function fetch(Location $location): Weather;
+
     /**
      * Return class name
      * @return string
      */
-    public function toString(): string
+    public function __toString(): string
     {
         return get_class($this);
     }

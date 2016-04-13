@@ -12,7 +12,7 @@ namespace Nfq\WeatherBundle\Provider;
 use Nfq\WeatherBundle\Location\Location;
 use Nfq\WeatherBundle\Weather\Weather;
 
-class DelegatingProvider implements WeatherProviderInterface
+class DelegatingProvider extends ProviderAbstract
 {
     /**
      * @var array

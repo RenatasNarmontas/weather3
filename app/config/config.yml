@@ -67,7 +67,7 @@ swiftmailer:
     spool:     { type: memory }
 
 nfq_weather:
-    provider: cached
+    provider: yahoo
 #    providers:
 #        yahoo:
 #            api_key: "%yahoo_api_key%"
