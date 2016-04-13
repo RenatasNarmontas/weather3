@@ -66,17 +66,17 @@ swiftmailer:
     password:  "%mailer_password%"
     spool:     { type: memory }
 
+# NFQ_Weather Configuration
 nfq_weather:
-    provider: yahoo
-#    providers:
-#        yahoo:
-#            api_key: "%yahoo_api_key%"
-#        openweathermap:
-#            api_key: "%openweathermap_api_key%"
-#        delegating:
-#            providers:
-#                - yahoo
-#                - openweathermap
-#        cached:
-#            provider: delegating
-#            ttl: 30
+    provider: delegating
+    providers:
+        yahoo:
+        openweathermap:
+            api_key: "%openweathermap_api_key%"
+        delegating:
+            providers:
+                - yahoo
+                - openweathermap
+        cached:
+            provider: delegating
+            ttl: 30

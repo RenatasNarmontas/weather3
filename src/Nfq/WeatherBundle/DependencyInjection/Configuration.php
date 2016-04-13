@@ -2,6 +2,7 @@
 
 namespace Nfq\WeatherBundle\DependencyInjection;
 
+use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
@@ -19,32 +20,65 @@ class Configuration implements ConfigurationInterface
     {
         $treeBuilder = new TreeBuilder();
         $rootNode = $treeBuilder->root('nfq_weather');
-        $rootNode
+        
+        $this->addProviderSection($rootNode);
+        $this->addProvidersSection($rootNode);
+
+        return $treeBuilder;
+    }
+
+    /**
+     * Add provider section configuration
+     * @param ArrayNodeDefinition $node
+     */
+    private function addProviderSection(ArrayNodeDefinition $node)
+    {
+        $node
             ->children()
                 ->scalarNode('provider')
                     ->isRequired()
                 ->end()
             ->end();
-//        $rootNode = $treeBuilder->root('nfq_weather');
-//
-//        $rootNode
-//            ->children()
-//                ->scalarNode('provider')
-//                    ->isRequired()
-//                ->end()
-//            ->end()
-//            ->children()
-//                ->arrayNode('providers')
-//                    ->prototype('scalar')
-//                    ->end()
-//                ->end()
-//            ->end()
-//        ;
+    }
 
-        // Here you should define the parameters that are allowed to
-        // configure your bundle. See the documentation linked above for
-        // more information on that topic.
-
-        return $treeBuilder;
+    /**
+     * Add Providers section configuration
+     * @param ArrayNodeDefinition $node
+     */
+    private function addProvidersSection(ArrayNodeDefinition $node)
+    {
+        $node
+            ->children()
+                ->arrayNode('providers')
+                    ->children()
+                        ->arrayNode('openweathermap')
+                            ->children()
+                                ->scalarNode('api_key')->end()
+                            ->end()
+                        ->end()
+                        ->scalarNode('yahoo')
+                        ->end()
+                        ->arrayNode('delegating')
+                            ->children()
+                                ->arrayNode('providers')
+                                    ->prototype('scalar')
+                                    ->end()
+                                ->end()
+                            ->end()
+                        ->end()
+                        ->arrayNode('cached')
+                            ->children()
+                                ->scalarNode('provider')
+                                    ->isRequired()
+                                ->end()
+                                ->integerNode('ttl')
+                                    ->min(10)
+                                    ->isRequired()
+                                ->end()
+                            ->end()
+                        ->end()
+                    ->end()
+                ->end()
+            ->end();
     }
 }
