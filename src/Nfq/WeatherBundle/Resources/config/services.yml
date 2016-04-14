@@ -24,3 +24,8 @@ services:
     nfq_weather.provider.delegating:
         class: Nfq\WeatherBundle\Provider\DelegatingProvider
         arguments: ["%nfq_weather.delegating_providers%", "%api_key%"]
+
+    # Cached
+    nfq_weather.provider.cached:
+        class: Nfq\WeatherBundle\Provider\CachedProvider
+        arguments: ["%nfq_weather.cached_provider%", "%nfq_weather.cached_providers%", "%ttl%", "%api_key%"]

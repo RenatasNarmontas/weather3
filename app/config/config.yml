@@ -68,7 +68,7 @@ swiftmailer:
 
 # NFQ_Weather Configuration
 nfq_weather:
-    provider: Delegating
+    provider: Cached
     providers:
         yahoo:
         openweathermap:
@@ -78,5 +78,5 @@ nfq_weather:
                 - OpenWeatherMap
                 - Yahoo
         cached:
-            provider: delegating
-            ttl: 30
+            provider: Delegating
+            ttl: 500

@@ -35,7 +35,6 @@ class DelegatingProvider extends ProviderAbstract
     {
         $this->providers = $providers;
         $this->apis = $apis;
-//        dump($apis, $providers); exit;
     }
 
     /**
@@ -45,28 +44,26 @@ class DelegatingProvider extends ProviderAbstract
      */
     public function fetch(Location $location): Weather
     {
-        //dump($this->api); exit;
-
         foreach ($this->providers as $providerIterator) {
-            //var_dump($providerIterator); exit;
-
             try {
                 switch ($providerIterator) {
                     case 'Nfq\WeatherBundle\Provider\YahooProvider':
                         $provider = new $providerIterator(new YahooParser());
-//                        var_dump($provider); exit;
                         break;
+
                     case 'Nfq\WeatherBundle\Provider\OpenWeatherMapProvider':
                         $provider = new $providerIterator(new OpenWeatherMapParser(), $this->apis['OpenWeatherMap']);
-                        //var_dump($provider); exit;
                         break;
+
+                    default:
+                        throw new WeatherProviderException(sprintf('Unknown provider: %s', $providerIterator));
                 }
 
                 $weather = $provider->fetch($location);
                 return $weather;
             } catch (\Exception $ex) {
                 // This provider failed. Log error and let's try new one
-                error_log('Failed to get data. Message: '.$ex->getMessage());
+                error_log(sprintf('Failed to get data. Message: %s', $ex->getMessage()));
             }
         }
 

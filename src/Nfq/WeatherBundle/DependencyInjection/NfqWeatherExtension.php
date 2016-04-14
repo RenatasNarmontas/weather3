@@ -29,9 +29,9 @@ class NfqWeatherExtension extends Extension
         $loader->load('services.yml');
 
         $provider = $config['provider'];
-        //var_dump($provider); exit;
-
         $delegatingProviders = $config['providers']['delegating']['providers'];
+        $cachedProvider = $config['providers']['cached']['provider'];
+        $ttl = $config['providers']['cached']['ttl'];
 
         $container->setAlias('nfq_weather.provider', 'nfq_weather.provider.'.$provider);
 
@@ -40,13 +40,24 @@ class NfqWeatherExtension extends Extension
         foreach ($delegatingProviders as $providerIterator)
         {
             array_push($delegatingProvidersAsClass, 'Nfq\\WeatherBundle\Provider\\'.$providerIterator.'Provider');
-            $delegatingProvidersApis[$providerIterator] = $config['providers'][strtolower($providerIterator)]['api_key'];
+            $delegatingProvidersApis[$providerIterator] = $config['providers']
+                                                            [strtolower($providerIterator)]
+                                                            ['api_key'];
         }
 
         $container->setParameter('nfq_weather.delegating_providers', $delegatingProvidersAsClass);
         $container->setParameter('api_key', $delegatingProvidersApis);
 
+        // If cached provider is delegating, we need to specify array of providers
+        if ('delegating' === strtolower($cachedProvider)) {
+            $container->setParameter('nfq_weather.cached_providers', $delegatingProvidersAsClass);
+        } else {
+            $container->setParameter('nfq_weather.cached_providers', array());
+        }
 
+        $container->setParameter('nfq_weather.cached_provider',
+            'Nfq\\WeatherBundle\Provider\\'.$cachedProvider.'Provider');
+        $container->setParameter('ttl', $ttl);
 
 
 
