@@ -13,6 +13,14 @@ renatas@renatas-HP-8440p:/tmp$ cat weather_cache.txt
 1460626235 Nfq\WeatherBundle\Provider\YahooProvider 24 55 5
 ```
 
+**WARNING**: no management for cache file yet. You need to clean it up manually. Code example below:
+
+```
+renatas@renatas-HP-8440p:~$ cd /tmp
+renatas@renatas-HP-8440p:/tmp$ rm weather_cache.txt 
+renatas@renatas-HP-8440p:/tmp$ 
+```
+
 Config file example:
 
 ```
