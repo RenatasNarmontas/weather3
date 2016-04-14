@@ -31,7 +31,6 @@ class OpenWeatherMapParser extends WeatherProviderException
 
         if (null === $parsed_json) {
             if (isset($parsed_json->cod)) {
-
                 // Check status
                 $json_code = $parsed_json->cod;
                 if (200 !== $json_code) {

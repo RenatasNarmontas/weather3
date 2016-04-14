@@ -34,7 +34,7 @@ class OpenWeatherMapProvider extends ProviderAbstract
     {
         $this->api = $api;
         $this->owmp = $owmp;
-        }
+    }
 
     /**
      * Fetch data

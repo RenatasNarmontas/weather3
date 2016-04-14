@@ -37,8 +37,7 @@ class NfqWeatherExtension extends Extension
 
         $delegatingProvidersAsClass = array();
         $delegatingProvidersApis = array();
-        foreach ($delegatingProviders as $providerIterator)
-        {
+        foreach ($delegatingProviders as $providerIterator) {
             array_push($delegatingProvidersAsClass, 'Nfq\\WeatherBundle\Provider\\'.$providerIterator.'Provider');
             $delegatingProvidersApis[$providerIterator] = $config['providers']
                                                             [strtolower($providerIterator)]
@@ -55,46 +54,10 @@ class NfqWeatherExtension extends Extension
             $container->setParameter('nfq_weather.cached_providers', array());
         }
 
-        $container->setParameter('nfq_weather.cached_provider',
-            'Nfq\\WeatherBundle\Provider\\'.$cachedProvider.'Provider');
+        $container->setParameter(
+            'nfq_weather.cached_provider',
+            'Nfq\\WeatherBundle\Provider\\'.$cachedProvider.'Provider'
+        );
         $container->setParameter('ttl', $ttl);
-
-
-
-//        $container->setParameter('nfq_weather.provider', $config['provider']);
-
-        // Testing code in documentation
-//        $loader1 = new YamlConfigLoader(new FileLocator(__DIR__.'/../Resources/config'));
-//        //$loader1 = new YamlConfigLoader(__DIR__.'/../Resources/config');
-//        $loader1->load('config.yml');
-
-//        var_dump($config['nfq_weather.provider']);die;
-
-
-//        $configDirectories = array(__DIR__.'/../Resources/config');
-//        $locator = new FileLocator($configDirectories);
-//        $yamlConfigFiles = $locator->locate('config.yml', null, true);
-
-        //var_dump($locator); die;
-        //var_dump($yamlConfigFiles); die;
-
-//        $loaderNew = new YamlConfigLoader($locator);
-//        $loaderNew->load($yamlConfigFiles);
-//        $config = $loaderNew->load($yamlConfigFiles);
-//        var_dump($config); die;
-
-
-//        $container->setParameter('nfq_weather.provider', $config['nfq_weather.provider']);
-
-
-//
-//        $loaderResolver = new LoaderResolver(array(new YamlConfigLoader($locator, $yamlConfigFiles)));
-//        $delegatingLoader = new DelegatingLoader($loaderResolver);
-//
-//        $delegatingLoader->load(__DIR__.'/config.yml');
-
-        //object(Symfony\Component\Config\Loader\DelegatingLoader)#3582 (1) { ["resolver":protected]=> object(Symfony\Component\Config\Loader\LoaderResolver)#3580 (1) { ["loaders":"Symfony\Component\Config\Loader\LoaderResolver":private]=> array(1) { [0]=> object(Nfq\WeatherBundle\Config\YamlConfigLoader)#3581 (3) { ["locator":protected]=> object(Symfony\Component\Config\FileLocator)#3579 (1) { ["paths":protected]=> array(1) { [0]=> string(99) "/home/reno/phpstormProjects/weather3/src/Nfq/WeatherBundle/DependencyInjection/../Resources/config/" } } ["currentDir":"Symfony\Component\Config\Loader\FileLoader":private]=> NULL ["resolver":protected]=> *RECURSION* } } } }
-        //var_dump($delegatingLoader); die;
-
     }
 }
